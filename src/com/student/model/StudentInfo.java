@@ -10,6 +10,16 @@ public class StudentInfo {
     public String age;//年龄
     public String major;//专业
 
+    public StudentInfo(){}
+
+    public  StudentInfo(String studentID,String studentName,String sex,String age,String major){
+        this.studentID=studentID;
+        this.studentName=studentName;
+        this.sex=sex;
+        this.age=age;
+        this.major=major;
+    }
+
     public void setStudentID(String studentID) {
         this.studentID = studentID;
     }
@@ -49,4 +59,6 @@ public class StudentInfo {
     public String getMajor() {
         return major;
     }
+
+
 }
