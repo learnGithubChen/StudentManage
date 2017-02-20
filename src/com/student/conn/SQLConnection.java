@@ -11,7 +11,7 @@ public class SQLConnection {
     public static  final String DRIVER ="com.mysql.jdbc.Driver";
     public  static final String URL = "jdbc:mysql://localhost:3306/test";
     public static final String USER = "root";
-    public static final String PASSWORD = "mysql";
+    public static final String PASSWORD = "mysql123";
     //连接数据库
     public Connection getConnection(){
         //加载mysql驱动
