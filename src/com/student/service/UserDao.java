@@ -16,14 +16,13 @@ public class UserDao {
    private static Connection conn = sqlConnection.getConnection();
     //用户登录
     public boolean login(UserInfo userInfo){
-        String sql = "select * from userinfo where username=? and password=? ";
+        String sql = "select * from userinfo where username=? and password=md5(?) ";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1,userInfo.getUsername());
             ps.setString(2,userInfo.getPassword());
             ResultSet rs = ps.executeQuery();
-            rs.next();//默认指向第一行
-            if(rs.getInt(1)==1){
+            if(rs.next()){
                 //查询到数据,登录成功
                 return true;
             }
