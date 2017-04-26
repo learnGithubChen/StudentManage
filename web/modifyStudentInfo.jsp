@@ -1,6 +1,9 @@
+<%@ page import="com.student.model.Page" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page import="com.student.model.StudentInfo" %>
 <%@ page import="com.student.service.StudentDao" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.student.model.StudentInfo" %><%--
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: peter
   Date: 2017/2/18
@@ -11,12 +14,64 @@
 <html>
 <head>
     <title>Title</title>
+    <%
+        Page page1 = (Page) request.getAttribute("page");
+        if(page1==null){
+            int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+            StudentDao studentDao = new StudentDao();
+            List<StudentInfo> list = studentDao.getAllStudentInfo();
+            page1 = new Page(10,currentPage,list);
+            request.setAttribute("page",page1);//为了下面cif中取值
+        }
+
+    %>
 </head>
+<link href="css/modifyStudentInfo.css" type="text/css" rel="stylesheet">
 <body>
-<%
-    StudentDao studentDao = new StudentDao();
-    List<StudentInfo> list = studentDao.getAllStudentInfo();
-%>
+<script type="text/javascript">
+    var currentPage = ${page.currentPage};
+    var totalPage = ${page.totalPage};
+
+    //跳转到首页
+    function firstPage() {
+        if(currentPage==1){
+            alert("已经是首页");
+            return false;
+        }
+        if(currentPage>1){
+            document.getElementById("first").href = "/pageServlet?currentPage=1&modifyOrDelete=1";
+        }
+    }
+    //跳转到尾页
+    function lastPage() {
+        if(currentPage==totalPage){
+            alert("已经是尾页");
+            return false;
+        }
+        document.getElementById("last").href = "/pageServlet?currentPage="+totalPage+"&modifyOrDelete=1";
+    }
+
+    //上一页
+    function previousPage() {
+        if(currentPage==1){
+            alert("已经是首页了");
+            return false;
+        }
+        currentPage--;
+        document.getElementById("previous").href = "/pageServlet?currentPage="+currentPage+"&modifyOrDelete=1";
+    }
+
+    //下一页
+    function nextPage() {
+        if(currentPage==totalPage){
+            alert("已经是最后一页了");
+            return false;
+        }
+        currentPage++;
+        document.getElementById("next").href = "/pageServlet?currentPage="+currentPage+"&modifyOrDelete=1";
+        return true;
+    }
+</script>
 <table>
     <thead>
     <td>学号</td>
@@ -26,8 +81,9 @@
     <td>专业</td>
     </thead>
     <%
-        for (int i = 0; i < list.size(); i++) {
-            StudentInfo studentInfo = list.get(i);
+        List<StudentInfo> dataList = page1.getDataList();
+        for (int i = 0; i < dataList.size(); i++) {
+            StudentInfo studentInfo = dataList.get(i);
     %>
     <tr>
         <td><%=studentInfo.getStudentID()%>
@@ -45,7 +101,15 @@
     <%
         }
     %>
-
 </table>
+<div id="page">
+    <c:if test="${fn:length(page.dataList) gt 0}">
+    <hr>
+    共${page.totalRecord}条记录,共${page.totalPage}页&nbsp;&nbsp;当前第${page.currentPage}页&nbsp;&nbsp;
+    <a id="first" href="#" onclick="firstPage()">首页</a>
+    <a id="previous" href="#" onclick="previousPage()">上一页</a>
+    <a id="next" href="#" onclick="nextPage()">下一页</a>
+    <a id="last" href="#" onclick="lastPage()">尾页</a>
+    </c:if>
 </body>
 </html>
