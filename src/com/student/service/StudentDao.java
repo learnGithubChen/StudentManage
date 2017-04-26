@@ -83,6 +83,28 @@ public class StudentDao {
         }
         return null;
     }
+    //根据姓名查找学生
+    public List<StudentInfo> queryStudentInfoByName(String studentName){
+        String queryByName = "select * from studentinfo where studentname=?";
+        List<StudentInfo> list = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(queryByName);
+            ps.setString(1,studentName);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                String studentId = rs.getString(1);
+                String age = rs.getString(3);
+                String sex = rs.getString(4);
+                String major = rs.getString(5);
+                StudentInfo stuInfo = new StudentInfo(studentId,studentName,age,sex,major);
+                list.add(stuInfo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     //查询所有学生信息
     public List<StudentInfo> getAllStudentInfo(){
         String query_all = "select * from studentinfo";
