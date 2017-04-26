@@ -19,7 +19,6 @@ public class StudentServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");//防止出现中文乱码
         String studentID = request.getParameter("studentID");
         String flag = request.getParameter("flag");//判断是插入还是修改，1表示插入，2表示修改，3表示删除
-        System.out.println("======================="+studentID+":"+"============="+flag);
         if("1".equals(flag)||"2".equals(flag)){
             String studentName = request.getParameter("studentName");
             String age = request.getParameter("age");
