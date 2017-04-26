@@ -17,7 +17,7 @@
     %>
     <script type="text/javascript"></script>
 </head>
-<body>
+<body background="images/bg6.jpg">
 <marquee>欢迎<%=username%>登陆学生管理系统</marquee>
 </body>
 </html>
