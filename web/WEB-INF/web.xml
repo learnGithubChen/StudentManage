@@ -51,4 +51,12 @@
         <servlet-name>ModifyServlet</servlet-name>
         <url-pattern>/modifyServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>PageServlet</servlet-name>
+        <servlet-class>com.student.control.PageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PageServlet</servlet-name>
+        <url-pattern>/pageServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
