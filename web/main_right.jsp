@@ -10,7 +10,6 @@
 <head>
     <title></title>
 </head>
-<body>
-<p>我是右界面</p>
+<body background="images/bg5.jpg">
 </body>
 </html>
