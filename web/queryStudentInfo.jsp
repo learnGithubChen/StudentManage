@@ -12,18 +12,31 @@
         function queryStudentInfo() {
             var httpRequest = new XMLHttpRequest();
             var studentID = document.getElementById("studentID").value;
-            httpRequest.open("Get", "/queryStudentInfo?studentID=" + studentID, true);
+            if(studentID!=""){
+                httpRequest.open("Get", "/queryStudentInfo?studentID=" + studentID, true);
+            }else{
+                var studentName = document.getElementById("studentName").value;
+                httpRequest.open("Get", "/queryStudentInfo?studentName=" + encodeURI(encodeURI(studentName)), true);
+            }
+
             httpRequest.send();
             httpRequest.onreadystatechange = function () {
                 if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                    document.getElementById("queryStudentInfo").innerHTML = httpRequest.responseText;
+                    var stuInfo = httpRequest.responseText.split("#");
+                    var reFormStuInfo="";
+                    for(var i=0;i<stuInfo.length;i++){
+                        reFormStuInfo+=stuInfo[i]+"<br>"+"<hr>";
+                    }
+                    document.getElementById("queryStudentInfo").innerHTML = reFormStuInfo;
                 }
             }
         }
     </script>
+    <link href="css/queryStudentInfo.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-请输入学号<input type="text" name="studentID" id="studentID">
+<input type="text" name="studentID" id="studentID" placeholder="学号查询">
+<input type="text" name="studentName" id="studentName" placeholder="姓名查询"><br>
 <input type="button" onclick="queryStudentInfo();" value="查询">
 <div id="queryStudentInfo"></div>
 </body>
